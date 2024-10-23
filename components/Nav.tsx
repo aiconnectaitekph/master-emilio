@@ -1,23 +1,18 @@
 "use client";
 
 import { useLayoutEffect, useState } from "react";
-import HumeLogo from "./logos/Hume";
 import { Button } from "./ui/button";
 import { Moon, Sun } from "lucide-react";
-import Github from "./logos/GitHub";
-import pkg from '@/package.json';
 
 export const Nav = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  // Initialize dark mode as true by default
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useLayoutEffect(() => {
     const el = document.documentElement;
-
-    if (el.classList.contains("dark")) {
-      setIsDarkMode(true);
-    } else {
-      setIsDarkMode(false);
-    }
+    // Ensure the 'dark' class is added on initial render
+    el.classList.add("dark");
+    setIsDarkMode(true);
   }, []);
 
   const toggleDark = () => {
@@ -32,38 +27,21 @@ export const Nav = () => {
         "px-4 py-2 flex items-center h-14 z-50 bg-card border-b border-border"
       }
     >
-      <div>
-        <HumeLogo className={"h-5 w-auto"} />
+      {/* "aiConnect" text on the left side */}
+      <div className="mr-auto text-lg font-semibold">
+        aiConnect
       </div>
-      <div className={"ml-auto flex items-center gap-1"}>
-        <Button
-          onClick={() => {
-            window.open(
-              pkg.homepage,
-              "_blank",
-              "noopener noreferrer"
-            );
-          }}
-          variant={"ghost"}
-          className={"ml-auto flex items-center gap-1.5"}
-        >
-          <span>
-            <Github className={"size-4"} />
-          </span>
-          <span>Star on GitHub</span>
-        </Button>
+      
+      {/* Dark/Light toggle button on the right side */}
+      <div className="flex items-center">
         <Button
           onClick={toggleDark}
-          variant={"ghost"}
-          className={"ml-auto flex items-center gap-1.5"}
+          variant="ghost"
+          className="flex items-center gap-1.5"
         >
-          <span>
-            {isDarkMode ? (
-              <Sun className={"size-4"} />
-            ) : (
-              <Moon className={"size-4"} />
-            )}
-          </span>
+          {/* Icon changes based on the current theme */}
+          {isDarkMode ? <Sun className="size-4" /> : <Moon className="size-4" />}
+          {/* Text changes based on the current theme */}
           <span>{isDarkMode ? "Light" : "Dark"} Mode</span>
         </Button>
       </div>
